@@ -9,16 +9,24 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- [1단계] robots.txt 자동 생성 로직 ---
-# 서버가 실행될 때 파일이 없으면 자동으로 만듭니다.
-def ensure_robots_txt():
-    if not os.path.exists("static/robots.txt"):
-        if not os.path.exists("static"):
-            os.makedirs("static")
-        with open("static/robots.txt", "w", encoding="utf-8") as f:
-            f.write("User-agent: *\nAllow: /\n\nUser-agent: Mediapartners-Google\nAllow: /")
+# --- [1단계] robots.txt 강제 생성 및 내용 주입 로직 ---
+def ensure_static_files():
+    # 1. static 폴더가 없으면 생성
+    if not os.path.exists("static"):
+        os.makedirs("static")
+    
+    # 2. robots.txt 파일 생성 및 내용 강제 쓰기 (백지 현상 방지)
+    robots_content = "User-agent: *\nAllow: /\n\nUser-agent: Mediapartners-Google\nAllow: /"
+    with open("static/robots.txt", "w", encoding="utf-8") as f:
+        f.write(robots_content)
+    
+    # 3. (선택사항) ads.txt도 미리 생성해두면 나중에 편합니다.
+    # ads_content = "google.com, pub-9577213309229562, DIRECT, f08c47fec0942fa0"
+    # with open("static/ads.txt", "w", encoding="utf-8") as f:
+    #     f.write(ads_content)
 
-ensure_robots_txt()
+# 서버 실행 시마다 파일 상태 점검
+ensure_static_files()
 
 # --- [2단계] 애드센스 스크립트 주입 ---
 adsense_script = """
@@ -30,27 +38,36 @@ st.markdown(adsense_script, unsafe_allow_html=True)
 # --- [디자인] 사이드바 및 레이아웃 최적화 CSS ---
 st.markdown("""
     <style>
+        /* 네비게이션 메뉴 디자인 최적화 */
         div[data-testid="stSidebarNavViewButton"] { display: none !important; }
         div[data-testid="stSidebarNavSeparator"] { display: none !important; }
         div[data-testid="stSidebarNavItems"] { padding-top: 1rem; }
+        
+        /* 메인 타이틀 스타일 */
         .main-title {
             font-size: 3.2rem; 
             color: #FFD700; 
             margin-bottom: 0;
             text-shadow: 2px 2px 4px #000000;
+            text-align: center;
+        }
+        .sub-title {
+            font-size: 1.2rem; 
+            color: #AAAAAA; 
+            font-weight: 300;
+            text-align: center;
+            padding-bottom: 2rem;
         }
     </style>
 """, unsafe_allow_html=True)
 
 # 3. 메인 홈 렌더링 함수
 def render_main_home():
-    st.markdown("""
-        <div style="text-align: center; padding: 2rem 0rem;">
-            <h1 class="main-title">⚡ VoltMaster</h1>
-            <p style="font-size: 1.2rem; color: #AAAAAA; font-weight: 300;">Data Center Power Infrastructure Engineering Portal</p>
-        </div>
-    """, unsafe_allow_html=True)
+    # 히어로 섹션
+    st.markdown('<h1 class="main-title">⚡ VoltMaster</h1>', unsafe_allow_html=True)
+    st.markdown('<p class="sub-title">Data Center Power Infrastructure Engineering Portal</p>', unsafe_allow_html=True)
 
+    # 핵심 서비스 레이아웃
     st.markdown("### 🚀 Core Engineering Tools")
     col1, col2 = st.columns(2)
 
@@ -81,6 +98,7 @@ def render_main_home():
     st.markdown("<br>", unsafe_allow_html=True)
     st.divider()
 
+    # 자료 및 정보 그리드
     st.markdown("### 📁 Technical Archive & Trends")
     m_col1, m_col2 = st.columns(2)
     m_col3, m_col4 = st.columns(2)
@@ -115,6 +133,8 @@ def render_main_home():
 
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("---")
+    
+    # 푸터
     f_col1, f_col2 = st.columns(2)
     with f_col1:
         st.write("© 2026 VoltMaster. All rights reserved.")
@@ -148,6 +168,7 @@ pages_dict = {
     ]
 }
 
+# 관리자 메뉴
 if st.query_params.get("manage") == "true" or st.session_state.get("is_admin", False):
     st.session_state.is_admin = True
     pages_dict["🔐 시스템 관리"] = [
