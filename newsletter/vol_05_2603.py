@@ -1,5 +1,6 @@
 import streamlit as st
 from comments_tool import render_board  # 분리된 게시판 모듈 불러오기
+import pandas as pd
 
 # --- 1. [Intro] 뉴스레터 헤더 & 오프닝 ---
 st.markdown("""
@@ -14,22 +15,87 @@ st.info("""
 이번 5호에서는 기술사 공부의 핵심인 NGR 설계 원리와 상반기 주요 기술 전시회 소식을 함께 담았습니다.
 """)
 
-# --- 2. [Deep Dive] 이달의 기술 심층 분석 ---
-st.markdown("## 📚 Deep Dive: 전력 계통의 핵심")
+# --- 2. [Deep Dive] 비상발전기 정격(Rating)의 상세 이해 ---
+st.markdown("## 📚 Deep Dive: 발전기의 '체력'과 설계 정격")
 with st.container(border=True):
-    st.markdown("### **변압기 중성점 접지(NGR)와 지락전류 제한 설계**")
-    col_text, col_img = st.columns([2, 1])
-    with col_text:
-        st.write("""
-        우리 센터는 메인 TR 2차측 중성선에 **38.1Ω의 NGR**을 설치하여 지락전류를 **100A 이하**로 제한하고 있습니다. 
-        이 수치는 단순한 숫자가 아닙니다. 통신선 유도장해 방지와 기기 손상 억제, 그리고 지락 사고 시에도 시스템의 연속성을 
-        확보하기 위한 공학적 설계의 결과입니다. 
-        
-        기술사 답안지에는 이 '100A'가 갖는 물리적 의미와 보호계전기(OCGR)와의 협조 곡선을 반드시 함께 서술해야 합니다.
+    st.markdown("### **Standby, Prime, DCC? 우리 현장에 맞는 엔진은?**")
+    
+    st.write("""
+    비상발전기는 정전 시 얼마나 **'오래'**, **'강하게'** 버틸 수 있느냐에 따라 정격(Rating)이 결정됩니다. 
+    이것을 우리 주변에서 흔히 볼 수 있는 이동 수단에 비유하면 이해가 훨씬 빠릅니다.
+
+    * 🚗 **'시내 주행용' - Standby**: 
+      가까운 거리를 잠깐 이동할 때 쓰는 승용차처럼, 정전 시 한전 전기가 들어올 때까지만 **단시간** 동안 버티는 용도입니다. 엔진을 최대치로 쓰기 때문에 오래 달리면 무리가 갑니다.
+      
+    * 🚛 **'장거리 화물용' - Prime**: 
+      무거운 짐을 싣고 고속도로를 밤새 달리는 트럭처럼, 한전 전기가 없는 곳에서 **24시간 내내** 돌아가는 용도입니다. 다만, 엔진 보호를 위해 가끔은 가속 페달을 살짝 떼는(평균 부하율 70% 제한) 완급 조절이 필요합니다.
+      
+    * 🏎️ **'24시간 레이싱용' - DCC**: 
+      한 번의 멈춤 없이 전력 질주하는 르망 24시 레이싱카처럼, **부하율 100%의 풀파워**로 1년 365일 내내 달릴 수 있도록 설계된 데이터센터 전용 엔진입니다. 서버의 일정한 부하를 견디는 '강철 체력'을 가졌습니다.
+    """)
+
+    # 1. 비교표 (와이드 출력)
+    st.markdown("#### **[발전기 정격별 핵심 비교표]**")
+    data = {
+        "구분": ["Standby (ESP)", "Prime (PRP)", "DCC (Data Center)"],
+        "엔진 비유": ["100m 단거리 질주", "완급조절 마라톤", "전력질주 마라톤"],
+        "연간 운전 시간": ["최대 200~500시간", "시간 제한 없음", "시간 제한 없음"],
+        "평균 부하율": ["70% 이하 유지 권장", "70% 수준 유지 권장", "100% 지속 운전 가능"],
+        "과부하 능력": ["없음 (최대 출력 상태)", "10% 과부하 (12시간 중 1시간)", "제조사 협의 (일반적 없음)"],
+        "주요 적용처": ["일반 빌딩, 아파트", "전력망 미비 지역, 공장", "데이터센터, 미션 크리티컬"]
+    }
+    df_rating = pd.DataFrame(data)
+    st.dataframe(df_rating, use_container_width=True, hide_index=True)
+
+    st.markdown("---")
+
+    # 2. 1X3 구조의 상세 설명 배치
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.subheader("🏃 Standby (ESP)")
+        st.markdown("##### **'정전 시 잠깐 쓰는 보험'**")
+        st.info("""
+        - **용도:** 비상 시 긴급 전력 공급
+        - **특징:** 엔진의 가용 한계치까지 출력을 높여 설계됩니다.
+        - **주의:** 연간 가동 시간이 정해져 있어, 장시간 운전 시 엔진 소손 위험이 큽니다.
         """)
-    with col_img:
-        # 
-        st.image("https://via.placeholder.com/200x150.png?text=NGR+Diagram", caption="NGR 설치 및 지락전류 흐름도")
+
+    with col2:
+        st.subheader("🚴 Prime (PRP)")
+        st.markdown("##### **'스스로 도는 주전원'**")
+        st.info("""
+        - **용도:** 상용 전원 대용 (오지, 건설현장)
+        - **특징:** 무제한 가동이 가능하지만, 엔진 보호를 위해 70% 힘으로 달려야 합니다.
+        - **장점:** 일시적인 10% 과부하를 견딜 여유가 있습니다.
+        """)
+
+    with col3:
+        st.subheader("🏋️ DCC (Data Center)")
+        st.markdown("##### **'지치지 않는 강철 엔진'**")
+        st.success("""
+        - **용도:** 데이터센터 서버 전용
+        - **특징:** 24시간 내내 **100% 풀파워**로 가동해도 문제가 없는 등급입니다.
+        - **배경:** 부하 변화가 거의 없는 서버 부하 특성에 완벽히 최적화되어 있습니다.
+        """)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+
+    # 3. 전문가 보강 팁
+    with st.expander("🧐 전문가를 위한 심층 분석 (Expert Insights)", expanded=True):
+        st.markdown("""
+        **1. 정격별 출력 크기의 역설 (The Rating Paradox)**
+        동일한 크기의 엔진이라도 정격에 따라 명시된 kW 수치는 다릅니다.
+        * **출력 크기:** Standby(100%) > DCC(약 90%) > Prime(약 80%)
+        * 더 오래, 더 꾸준히 일해야 하는 등급일수록 엔진의 안전 마진을 위해 용량을 보수적으로 책정합니다.
+
+        **2. 데이터센터 설계와 Uptime Institute**
+        Tier III 이상의 데이터센터 인증을 위해서는 가동 시간 제한이 있는 Standby 대신, **DCC 정격**이나 **Continuous 정격** 엔진을 선정하는 것이 표준입니다.
+
+        **3. 저부하 운전의 위험성 (Wet Stacking)**
+        DCC 등급이라 하더라도 정격의 30% 미만으로 오래 돌리면 불완전 연소로 배기 계통에 찌꺼기가 쌓입니다. 주기적인 실부하 테스트(Load Bank Test)가 필요한 이유입니다.
+        """)
 
 st.markdown("<br>", unsafe_allow_html=True)
 
@@ -89,21 +155,136 @@ st.markdown("""
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# --- 4. [Real Tip] 1분 실무 체크리스트 ---
-st.markdown("## 🛠️ 실무 꿀팁: 현장의 소리")
-with st.expander("✅ 이번 주 점검 포인트: 고압 부스덕트 절연 관리", expanded=True):
-    st.write("""
-    - **육안 점검:** 접속부 볼트 캡의 변색 유무를 확인하세요 (과열 징후).
-    - **환경 관리:** 결로 방지를 위해 히터가 정상 동작하는지 확인이 필요합니다.
-    - **온도 모니터링:** 평소보다 온도가 5℃ 이상 상승했다면 즉시 정밀 진단을 권장합니다.
+# --- 4. [Real Tip] 1분 실무 체크리스트: 누전(지락) 관리 ---
+st.markdown("## ⚡ 실무 꿀팁: 누전(지락) 메커니즘과 검출 장치")
+
+with st.container(border=True):
+    st.markdown("### **💦 수도꼭지 비유로 이해하는 누전 원리**")
+    
+    # 열 비율을 [2, 1]에서 [1.5, 1] 또는 [1.2, 1]로 조정하여 수식을 왼쪽으로 당김
+    # gap="small"을 추가하여 열 사이의 빈 공간을 최소화합니다.
+    col_desc, col_formula = st.columns([1.2, 1], gap="small")
+    
+    with col_desc:
+        st.write("""
+        **전기 회로의 대원칙은 '들어간 만큼 나와야 한다'는 키르히호프의 전류 법칙(KCL)입니다.**
+        
+        - **정상:** 수도꼭지로 보낸 물이 10L일 때 배수구로 나오는 물도 10L인 상태입니다.
+        
+        - **누전:** 보낸 건 10L인데 9L만 돌아온다면? 중간에 파이프가 터져 1L가 샌 것입니다.
+        
+        - 이처럼 벡터 합이 0이 되지 않고 남는 전류를 **영상 전류($I_0$)**라고 부릅니다.
+        """)
+
+    with col_formula:
+        # 수식을 왼쪽으로 더 밀기 위해 정렬을 'left'로 변경하거나 마진 조정
+        st.markdown("<div style='margin-top: -25px; margin-left: -40px;'>", unsafe_allow_html=True)
+        
+        # 1. 수식 출력
+        st.latex(r"I_r + I_s + I_t + I_n = I_0 \neq 0")
+        
+        # 2. 캡션 출력 (수식과 정렬을 맞추기 위해 text-align 유지)
+        st.markdown("""
+            <div style="text-align: center; margin-top: -20px; margin-left: 40px;">
+                <p style="font-size: 0.85em; color: gray;">지락 발생 시 전류의 불균형</p>
+            </div>
+        """, unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+    
+    # ZCT vs NCT 비교
+    st.markdown("#### **🔍 누전을 찾는 '두 개의 눈': ZCT vs NCT**")
+    col_zct, col_nct = st.columns(2)
+    with col_zct:
+        st.markdown("**① ZCT (영상변류기)**")
+        st.write("- **위치:** 3상 4선 전체를 도넛처럼 감쌈\n- **용도:** 일반적인 지락 차단 및 경보 (ELB, ELD)")
+    with col_nct:
+        st.markdown("**② NCT (중성점 변류기)**")
+        st.write("- **위치:** 변압기 중성점과 대지 접지선 사이\n- **용도:** 상위 계통 및 변압기 자체 보호")
+
+
+
+# 2. 데이터센터의 난제: Igr vs Igc (진짜 vs 가짜)
+with st.expander("⚠️ [심화] 분명 메거는 정상인데 알람이 울린다면?", expanded=True):
+    st.markdown("""
+    데이터센터에서 ELD가 울리는데 절연 저항은 정상인 경우가 많습니다. 범인은 **용량성 누설전류($I_{gc}$)**입니다.
+    
+    - **$I_{gr}$ (저항성):** 피복 손상 등 진짜 절연 파괴. **화재/감전의 원인.**
+    - **$I_{gc}$ (용량성):** 서버 SMPS 필터나 긴 케이블에 의해 흐르는 **노이즈성 전류.**
+    
+    **✅ 해결책:** 일반 클램프 미터 대신 **'Igr 전용 누설전류계'**를 사용하세요. 가짜 누전($I_{gc}$)을 걸러내고 진짜 위험($I_{gr}$)만 찾아낼 수 있습니다.
     """)
 
-st.markdown("<br>", unsafe_allow_html=True)
+# 3. 실무 체크리스트 (기존 코드 보강)
+with st.expander("🛠️ 현장 점검 핵심 포인트", expanded=True):
+    st.markdown("""
+    - **ZCT 설치 주의:** 접지선(Earth Wire)이 ZCT를 통과하면 지락 전류가 상쇄되어 검출되지 않습니다.
+    - **케이블 쉴드 접지:** 쉴드선을 접지할 때 ZCT를 통과했다면 반드시 다시 전단으로 되돌려 빼주어야 합니다.
+    - **ELD 동작 시:** 데이터센터처럼 무중단이 중요한 곳은 섣불리 차단기를 내리지 말고, 하위 분기 회로를 찍어보며 범인 회로를 색출하는 것이 먼저입니다.
+    """)
 
-# --- 5. [Interactive Board] 게시판 도구 호출 ---
-# comments_tool.py 모듈을 사용하여 게시판을 렌더링합니다.
-# 닉네임/의견 placeholder와 관리자 삭제 기능이 내장되어 있습니다.
-render_board("vol_05")
+# --- 5. [Must Visit] 전기인이라면 꼭 가봐야 할 곳 ---
+st.markdown("## 🏛️ 전기인 성지 순례: 영감과 휴식의 공간")
+
+with st.container(border=True):
+    # 1. 한국전기박물관 섹션
+    st.markdown("### **1. 전기의 역사와 미래를 만나다: 한국전기박물관**")
+    
+    col_img1, col_txt1 = st.columns([1, 1.8])
+    
+    with col_img1:
+        # 공식 웹사이트 이미지 경로 반영
+        st.image("https://www.kepco.co.kr/assets/art/images/pages/space/museum/museum_swiper_01.png", 
+                 caption="대한민국 전력 산업의 발자취 (한전아트센터 내)")
+    
+    with col_txt1:
+        st.write("""
+        우리가 매일 다루는 전기가 우리나라에 처음 어떻게 들어왔는지 알고 계신가요? 
+        서울 서초동 한전아트센터 내에 위치한 **'한국전기박물관'**은 국내 유일의 전기 전문 박물관입니다.
+        
+        * **주요 볼거리:**
+            - **에디슨의 유산:** 전기의 아버지가 만든 진품 전구와 초기 가전제품 전시
+            - **전력 계통의 변천사:** 과거의 애자, 변압기부터 현대의 스마트 그리드까지 총망라
+            - **특화 전시:** 전력 산업의 역사적 사료와 미래 에너지 기술 체험
+        """)
+        # 링크 다음 줄에 주소 배치
+        st.markdown("""
+        🔗 **[공식 홈페이지 방문하기](https://www.kepco.co.kr/art/space/museum/museumList.do)** \n\n📍 **주소:** 서울특별시 서초구 효령로72길 60 (한전아트센터 내)  
+        ⏰ **관람:** 10:00 ~ 18:00 (매주 월요일 휴관 / 관람료 무료)
+        """)
+
+    st.markdown("<hr style='margin: 20px 0; border: 0.5px solid #ddd;'>", unsafe_allow_html=True)
+
+    # 2. 마포새빛문화숲 섹션
+    st.markdown("### **2. 도심 속 발전소의 변신: 마포새빛문화숲 (당인리)**")
+    
+    col_img2, col_txt2 = st.columns([1, 1.8])
+    
+    with col_img2:
+        # 이미지가 준비되지 않았을 때를 대비한 샘플 이미지 또는 경로 처리
+        # 실제 경로를 입력하실 때는 st.image("/home/user/my_portal/image/mapo.png") 형태로 넣으시면 됩니다.
+        try:
+            st.image("image/mapo.png", caption="벚꽃 터널로 유명한 당인리 발전소 전경")
+        except:
+            st.warning("🖼️ 이미지를 준비 중입니다. (mapo.png 경로 확인 필요)")
+        
+    with col_txt2:
+        st.write("""
+        공학적 지식도 좋지만, 전력 설비가 도심 속에서 어떻게 시민들과 어우러지는지 느껴보는 것은 어떨까요? 
+        세계 최초로 **지하에 건설된 대용량 화력발전소** 위에 조성된 이 공원은 전기인들에게 특별한 자부심을 줍니다.
+        
+        * **방문 포인트:**
+            - **벚꽃 명소:** 발전소 정문부터 이어지는 서울의 숨겨진 벚꽃 터널 (3~4월 강추)
+            - **코미포 에너지움:** 발전소 내 에너지 홍보관에서 지하 발전소의 기술력 확인
+            - **리프레시 공간:** 당인리 화력발전소 4·5호기 자리에 펼쳐진 탁 트인 한강 조망 공원
+        """)
+        # 링크 다음 줄에 주소 배치
+        st.markdown("""
+        🔗 **[상세 정보(Visit Seoul)](https://korean.visitseoul.net/area/2024-maposaebit/KOPjxg13l)** \n\n📍 **주소:** 서울특별시 마포구 토정로 56  
+        🌳 **관람:** 공원 구역 연중무휴 개방 (에너지움은 사전 예약 권장)
+        """)
+
+    # 하단 팁
+    st.info("💡 **전기인 전용 팁:** 한국전기박물관은 주차 시설이 넉넉해 가족 나들이로 좋습니다. 마포새빛문화숲 방문 시에는 인근 상수동 카페거리와 연계해 전력 기술의 현대적 공존을 느껴보세요!")
 
 st.markdown("<br>", unsafe_allow_html=True)
 
@@ -119,4 +300,13 @@ with col_info:
     st.write("Vol. 06 예고: **'UPS 배터리 수명 예측과 교체 주기'**")
 
 st.markdown("<br>", unsafe_allow_html=True)
-st.caption("발행처: VoltMaster Engineering Team | 콘텐츠 문의: [문의하기]")
+
+# [수정된 부분] href 주소 앞에 최상단 루트를 의미하는 '/'를 추가했습니다.
+st.markdown("""
+    <div style="color: #888888; font-size: 0.85rem;">
+        발행처: VoltMaster Engineering Team | 콘텐츠 문의: 
+        <a href="/contact" target="_self" style="color: #007bff; text-decoration: none; font-weight: bold;">
+            [문의하기]
+        </a>
+    </div>
+""", unsafe_allow_html=True)

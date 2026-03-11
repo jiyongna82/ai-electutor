@@ -62,7 +62,7 @@ with st.container(border=True):
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# 5. 최신 업데이트 히스토리 (요약 기능 적용)
+# 5. 최신 업데이트 히스토리
 st.subheader("📑 최신 업데이트 히스토리")
 
 if not df_notices.empty:
@@ -79,14 +79,15 @@ if not df_notices.empty:
             col_title.markdown(f"**[{row['category']}]** {row['title']}")
             col_date.markdown(f"<div style='text-align: right; color: gray;'><i>{date_str}</i></div>", unsafe_allow_html=True)
             
-            # --- 본문 요약 로직 ---
+            # --- 수정된 본문 노출 로직 ---
             summary_limit = 150 
             
             if len(content) > summary_limit:
-                st.markdown(content[:summary_limit] + "...")
-                with st.expander("📖 본문 전체 보기", expanded=False):
+                # 내용이 길면 '내용 보기' expander 하나만 배치하여 중복을 없앰
+                with st.expander(f"📝 {content[:50]}... (더보기)", expanded=False):
                     st.markdown(content)
             else:
+                # 내용이 짧으면 깔끔하게 바로 출력
                 st.markdown(content)
 
     st.markdown("<br>", unsafe_allow_html=True)
@@ -96,25 +97,29 @@ if not df_notices.empty:
         with st.expander("➕ 이전 업데이트 이력 더보기 (6번~)", expanded=False):
             for idx, row in older_notices.iterrows():
                 date_str = row['date'].strftime('%Y-%m-%d')
-                st.markdown(f"**[{row['category']}]** {row['title']} | *{date_str}*")
-                with st.popover("내용 보기"):
-                    st.markdown(row['content'])
+                # 과거 이력은 제목 옆에 팝오버를 두어 공간을 절약
+                col_h, col_b = st.columns([8, 2])
+                col_h.markdown(f"**[{row['category']}]** {row['title']} | *{date_str}*")
+                with col_b:
+                    with st.popover("내용 상세"):
+                        st.markdown(row['content'])
                 st.divider()
 else:
     st.info("현재 등록된 업데이트 히스토리가 없습니다.")
 
 st.divider()
-st.info("💡 **VoltMaster**는 전기 전문가들의 업무 효율을 위해 끊임없이 진화합니다.")
 
-# --- 6. 관리자 모드 히든 아이콘 ---
+# --- 6. 푸터 문구 및 히든 아이콘 통합 ---
+# "끊임없이 진화합니다." 문구 바로 뒤에 투명한 관리자 링크를 배치했습니다.
 st.markdown(
     """
-    <div style="text-align: center; margin-top: 50px; opacity: 0.5;">
-        <p style="color: gray; font-size: 12px;">
-            © 2026 VoltMaster. All rights reserved. 
-            <a href="javascript:window.location.href='/?manage=true'" target="_self" style="color:rgba(0,0,0,0); font-size:20px; text-decoration:none; cursor:pointer;">.</a>
-        </p>
+    <div style="background-color: #e1f5fe; padding: 15px; border-radius: 10px; color: #01579b; display: flex; align-items: center;">
+        <span style="font-weight: bold;">💡 VoltMaster는 전기 전문가들의 업무 효율을 위해 끊임없이 진화합니다.</span>
+        <a href="javascript:window.location.href='/?manage=true'" target="_self" 
+           style="color: rgba(0,0,0,0); text-decoration: none; font-size: 14px; margin-left: 5px; cursor: pointer;">.</a>
     </div>
-    """,
+    """, 
     unsafe_allow_html=True
 )
+
+# 기존의 하단 2026 VoltMaster... 영역은 삭제되었습니다.

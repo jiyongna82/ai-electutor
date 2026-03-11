@@ -293,8 +293,7 @@ if df is not None:
 
     # --- [하단 문구 및 저작권] ---
     st.divider()
-    st.caption("🌿 본 리포트는 인공지능이 105회~138회 기출 데이터를 학습하여 생성한 분석 결과입니다. AI 분석 결과는 통계적 확률에 기반하므로 실제 출제 방향과는 다를 수 있습니다. 수험생께서는 본 자료를 전략 수립을 위한 참고용 보조 지표로만 활용하시기 바랍니다.")
-    st.markdown("<div style='text-align: center; color: #999; font-size: 0.8em; margin-top: 20px; letter-spacing: 2px;'>2026 AI VOLTMASTER ANALYTICS. ALL RIGHTS RESERVED.</div>", unsafe_allow_html=True)
+    st.caption("🌿 본 리포트는 인공지능이 105회~138회 기출 데이터를 학습하여 생성한 분석 결과입니다. AI 분석 결과는 통계적 확률에 기반하므로 실제 출제 방향과는 다를 수 있습니다. 수험생께서는 본 자료를 전략 수립을 위한 참고용 **보조 지표**로만 활용하시기 바랍니다.")
 
 else:
     st.error("❌ AI 데이터 연산 엔진 로드 실패.")

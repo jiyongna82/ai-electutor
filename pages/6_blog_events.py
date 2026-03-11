@@ -87,6 +87,3 @@ if selected_news:
 else:
     st.title("🗞️ VoltMaster 인사이트")
     st.info("`newsletter` 폴더에 `vol_01_2601.py` 형식으로 파일을 추가해 주세요.")
-
-# --- 6. 푸터 ---
-st.markdown("<br><br><div style='text-align: center; opacity: 0.5; font-size: 11px; color: gray;'>© 2026 VoltMaster. All rights reserved.</div>", unsafe_allow_html=True)

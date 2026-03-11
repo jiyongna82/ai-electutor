@@ -4,6 +4,21 @@ import os
 def main():
     st.set_page_config(page_title="전력기술 실무 계산 포털", layout="wide")
     
+    # --- [디자인 설정] 화면 하단 및 구분선 여백 축소 ---
+    st.markdown("""
+        <style>
+            /* 메인 컨테이너 최하단 여백 대폭 축소 */
+            .block-container {
+                padding-bottom: 1rem !important;
+            }
+            /* 가로 구분선(hr) 위아래 여백 축소 */
+            hr {
+                margin-top: 1.5rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+    
     # --- 사이드바 메뉴 구성 ---
     st.sidebar.header("📋 계산기 카테고리")
 
@@ -93,12 +108,9 @@ def main():
     selected_item = st.sidebar.radio("🔍 세부 계산기 항목", calc_list[selected_unit])
 
     # ==========================================
-    # 상단 헤더 및 범용 세부 설명 (위치 및 크기 수정)
+    # 상단 헤더 및 범용 세부 설명
     # ==========================================
-    # 전체 주제는 약간 작은 h3 크기로 배치
     st.markdown("### ⚡ 전력 계통 설계 및 운용 실무 계산기")
-    
-    # 선택된 계산기 항목을 가장 큰 제목(h1)으로 배치
       
     st.markdown("""
     본 포털은 **전기 설계, 시공, 감리 및 유지관리 등 전력 산업 현장의 모든 실무자**를 위한 종합 계산 도구입니다. 
@@ -115,21 +127,18 @@ def main():
         file_path = f"calculators/calc_{file_suffix}.py"
         
         if os.path.exists(file_path):
-            # 1. 파일을 읽어서 독립된 공간(namespace)에 기억시킵니다.
             with open(file_path, "r", encoding="utf-8") as f:
                 code = f.read()
                 
             namespace = {}
             exec(code, namespace)
             
-            # 2. ★해결의 핵심★: 기억된 코드 안에 run_calc 함수가 있다면 실제로 "실행(호출)" 합니다!
             if 'run_calc' in namespace:
                 namespace['run_calc']()
             else:
                 st.warning(f"⚠️ '{file_path}' 파일 안에 'def run_calc():' 함수가 선언되어 있지 않습니다.")
             
-            # 각 계산 결과 바로 아래에 범용 안내 문구 자동 출력
-            st.markdown("<br>", unsafe_allow_html=True)
+            # 각 계산 결과 바로 아래에 범용 안내 문구 자동 출력 (불필요한 <br> 제거)
             st.info("💡 **알림:** 본 계산 결과는 표준 공학 수식을 바탕으로 한 시뮬레이션입니다. 실제 현장 적용 시에는 반드시 전문 기술자와 상담하시기 바랍니다.")
         else:
             st.warning(f"🛠️ '{file_path}' 파일을 찾을 수 없습니다. 파일이 해당 위치에 있는지 확인해 주세요.")
@@ -140,7 +149,7 @@ def main():
     # --- 페이지 최하단 범용 면책 조항 (고정) ---
     st.markdown("---")
     st.caption("""
-        ⚠️ **Disclaimer:** 본 시스템에서 제공하는 모든 산출값은 전기 기술 실무를 돕기 위한 참고 데이터이며 법적 효력을 갖지 않습니다. 
+        ⚠️ **Disclaimer** 본 시스템에서 제공하는 모든 산출값은 전기 기술 실무를 돕기 위한 참고 데이터이며 법적 효력을 갖지 않습니다. 
         모든 공학적 의사결정은 국가 표준(KEC 등) 및 관련 법규를 준수해야 하며, 반드시 **해당 분야 전문 자격 소지자의 최종 검토**를 거칠 것을 권고합니다.
     """)
 

@@ -245,5 +245,4 @@ with tab_practical:
 
 # --- [하단 문구 및 저작권] ---
 st.divider()
-st.caption("🌿 본 리포트는 전기산업기사 기출 데이터를 기반으로 구성된 AI 분석 시뮬레이션입니다. 본 자료를 전략 수립을 위한 <b>보조 지표</b>로만 활용하시기 바랍니다.")
-st.markdown("<div style='text-align: center; color: #999; font-size: 0.8em; margin-top: 30px; letter-spacing: 2px;'>2026 AI VOLTMASTER ANALYTICS. ALL RIGHTS RESERVED.</div>", unsafe_allow_html=True)
+st.caption("🌿 본 리포트는 전기산업기사 기출 데이터를 기반으로 구성된 AI 분석 시뮬레이션입니다. 본 자료를 전략 수립을 위한 **보조 지표**로만 활용하시기 바랍니다.")

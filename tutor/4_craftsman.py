@@ -150,5 +150,4 @@ st.dataframe(df_written, use_container_width=True, height=300)
 
 # --- [하단 문구 및 저작권] ---
 st.divider()
-st.caption("🌿 본 리포트는 전기기능사 CBT 기출 데이터를 기반으로 구성된 AI 분석 시뮬레이션입니다. 문제은행 방식의 특성상 실제 시험마다 출제 문항이 다를 수 있으므로 전략 수립을 위한 <b>보조 지표</b>로만 활용하시기 바랍니다.")
-st.markdown("<div style='text-align: center; color: #999; font-size: 0.8em; margin-top: 30px; letter-spacing: 2px;'>2026 AI VOLTMASTER ANALYTICS. ALL RIGHTS RESERVED.</div>", unsafe_allow_html=True)
+st.caption("🌿 본 리포트는 전기기능사 CBT 기출 데이터를 기반으로 구성된 AI 분석 시뮬레이션입니다. 문제은행 방식의 특성상 실제 시험마다 출제 문항이 다를 수 있으므로 전략 수립을 위한 **보조 지표**로만 활용하시기 바랍니다.")

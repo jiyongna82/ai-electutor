@@ -91,9 +91,5 @@ with st.container(border=True):
     if st.button("🔍 전기기능사 AI 분석 바로가기", use_container_width=True, key="btn_cra"):
         st.switch_page("tutor/4_craftsman.py") # 파일 경로가 다를 경우 수정 필요
 
-# ==========================================
-# [하단 문구 및 저작권]
-# ==========================================
 st.divider()
 st.caption("🌱 본 리포트는 인공지능(AI)이 기출 빅데이터를 학습하여 예측한 분석 결과입니다. 실제 출제 경향과 다를 수 있으므로, 학습 전략 수립을 위한 보조 지표로만 가볍게 참고해 주시길 바랍니다.")
-st.markdown("<div style='text-align: center; color: gray; font-size: 0.8em; margin-top: 10px; letter-spacing: 1px;'>2026 AI VOLTMASTER ANALYTICS. ALL RIGHTS RESERVED.</div>", unsafe_allow_html=True)
