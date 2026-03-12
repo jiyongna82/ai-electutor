@@ -4403,3 +4403,7 @@ For `use_container_width=True`, use `width='stretch'`. For `use_container_width=
 2026-03-10 13:44:41.940 304 GET /static/static/css/index.CwxM5zkf.css (211.47.20.30) 0.67ms
 2026-03-10 13:44:41.941 304 GET /static/static/js/index.RuhrnD1v.js (211.47.20.30) 0.47ms
 2026-03-10 13:44:43.826 200 GET /robots.txt (74.7.244.30) 1.99ms
+
+Collecting usage statistics. To deactivate, set browser.gatherUsageStats to false.
+
+2026-03-12 02:22:34.141 Port 8501 is not available

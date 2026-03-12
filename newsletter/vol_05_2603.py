@@ -297,7 +297,7 @@ with col_qa:
     st.write("A: 외기 온도가 냉수 환수 온도보다 2~3℃ 낮아지는 늦가을부터가 적기입니다.")
 with col_info:
     st.markdown("### 📅 Next Issue")
-    st.write("Vol. 06 예고: **'UPS 배터리 수명 예측과 교체 주기'**")
+    st.write("Vol. 06 예고: **'프리쿨링 전환 및 운용 기준'**")
 
 st.markdown("<br>", unsafe_allow_html=True)
 
