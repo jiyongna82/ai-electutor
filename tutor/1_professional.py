@@ -42,13 +42,27 @@ if df is not None:
     first_exam = int(min(valid_exams)) if len(valid_exams) > 0 else 105
 
     # --- [상단 레이아웃: AI 분석 타이틀] ---
-    head_col, select_col = st.columns([6, 4])
+    head_col, select_col = st.columns([8.5, 1.5]) # 비율을 조정하여 우측 버튼 공간을 최적화
     with head_col:
         st.title("🤖 AI-Driven Intelligence System")
         st.markdown("<p style='color: #0D47A1; font-weight: bold;'>건축전기설비기술사 빅데이터 정밀 분석 엔진 v1.0</p>", unsafe_allow_html=True)
     
     with select_col:
-        with st.popover("⚙️ AI 분석 매개변수 설정", use_container_width=True):
+        # ✅ CSS를 이용해 팝오버 버튼의 위치를 아래로 내리고 크기를 조절
+        st.markdown("""
+            <style>
+                div[data-testid="stPopover"] {
+                    margin-top: 48px;      /* 위치를 아래로 살짝 내림 */
+                    text-align: right;     /* 우측 정렬 유지 */
+                }
+                div[data-testid="stPopover"] > button {
+                    max-width: 220px;      /* 버튼의 최대 가로 크기 제한 */
+                    margin-left: auto;     /* 우측으로 붙임 */
+                }
+            </style>
+        """, unsafe_allow_html=True)
+        
+        with st.popover("⚙️ AI 분석 설정", use_container_width=True):
             options = {
                 f"Full-Scale Analysis ({first_exam}회~{latest_exam}회)": None,
                 f"Recent 1 Year ({latest_exam-2}회~{latest_exam}회)": 3,
@@ -252,10 +266,9 @@ if df is not None:
         st.write("**예상 시나리오:** 기술사 시험은 1교시 변별력을 위해 기초 회로이론을 반드시 포함합니다. **RL/RC 직병렬 회로의 과도현상**은 계통 서지 분석과 연결되므로 10점 단답형으로 출제될 확률이 89% 이상입니다.")
         
         st.markdown("#### 2. 전력 계통 (난이도 조절 및 주기설)")
-        st.write("**AI Logic:** 22.9kV 계통의 고장전류 계산(%Z법)은 보통 2\~3회(1\~1.5년) 주기로 출제되나, 최근 심화 유도 문제가 누락되었습니다.")
+        st.write("**AI Logic:** 22.9kV 계통의 고장전류 계산(%Z법)은 보통 2~3회(1~1.5년) 주기로 출제되나, 최근 심화 유도 문제가 누락되었습니다.")
         st.write("**예상 시나리오:** 139회는 합격 인원 조절을 위해 난이도 '상'인 대칭좌표법 및 **3상 단락전류 계산**을 25점 서술형으로 배치할 가능성이 큽니다. 이는 차단기 정격 선정과 직결되는 핵심 역량입니다.")
         
-
         st.markdown("#### 3. 수배전 설비 (대규모 인프라 가중치)")
         st.write("**AI Logic:** 데이터센터 등 대규모 IT 인프라 신축이 급증하는 사회적 트렌드가 데이터에 강력한 가중치로 작용하고 있습니다.")
         st.write("**예상 시나리오:** 단순 변압기 원리보다는 무정전 전원 공급(2N, Distributed Redundancy)을 위한 **변압기 병렬운전** 및 **ATS/CTTS 절체 시나리오**가 실무 지문으로 등장할 시기입니다.")
@@ -269,7 +282,6 @@ if df is not None:
         st.write("**AI Logic:** 최근 1년간 뉴스 및 공공기관 공문 데이터 분석 결과, '전기차 화재' 키워드 빈도가 폭증했습니다.")
         st.write("**예상 시나리오:** 시험의 시사성 원칙에 따라 **EV 충전기 설치 기준 및 지하주차장 소방 설계 지침**은 139회 0순위 예상 문제입니다. ESS 화재 안전 기준 강화 내용도 필수 숙지 대상입니다.")
         
-
         st.markdown("#### 6. KEC/접지/방재 (법규 시행 안정화)")
         st.write("**AI Logic:** KEC 시행 5년 차 데이터 분석 결과, 단순 용어 정의에서 실무 수치 산정 단계로 진화하는 패턴이 확인되었습니다.")
         st.write("**예상 시나리오:** 138회 접지 문제가 평이했던 점을 감안하면, 139회는 **보호도체(PE) 굵기 선정 계산**이나 SPD 등급별 설치 위치 등 구체적 수치를 요구하는 실무형 문제가 예상됩니다.")
@@ -278,7 +290,6 @@ if df is not None:
         st.write("**AI Logic:** 탄소중립 의무화에 따라 데이터센터 PUE 관리 및 ZEB 인증 의무화가 가장 강력한 정책 가중치를 가집니다.")
         st.write("**예상 시나리오:** 대용량 전력 수용가의 냉방 부하 저감, **PUE 개선을 위한 프리쿨링**, 고효율 변압기 교체에 따른 LCC 분석 등이 에너지 진단 분야의 핵심 고배점 문제로 등장할 것입니다.")
         
-
         st.markdown("#### 8. 법규/설계 (안전 책임 강화)")
         st.write("**AI Logic:** 중대재해처벌법 및 전기안전관리법 강화에 따라 설계/감리자의 책임 범위 관련 데이터 세트가 증가하고 있습니다.")
         st.write("**예상 시나리오:** **전기 감리원의 업무 범위**나 지능형 건축물 인증 기준 등 암기 위주의 법규 문제가 1교시 용어 정의로 1~2문항 노출될 시기입니다.")

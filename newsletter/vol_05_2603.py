@@ -2,17 +2,101 @@ import streamlit as st
 from comments_tool import render_board  # 분리된 게시판 모듈 불러오기
 import pandas as pd
 
+# --- 수정된 카카오 공유 섹션 (기존 코드 구조 유지) ---
+KAKAO_JS_KEY = "e9f5dad37078cba34364ca3f9acb4854"
+
+def inject_share_buttons():
+    st.markdown(f"""
+        <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.0/kakao.min.js"></script>
+        <script>
+            function initKakao() {{
+                try {{
+                    if (window.Kakao) {{
+                        if (!Kakao.isInitialized()) {{
+                            Kakao.init('{KAKAO_JS_KEY}');
+                        }}
+                    }}
+                }} catch (e) {{ console.error(e); }}
+            }}
+
+            function shareKakao() {{
+                initKakao();
+                if (!Kakao.isInitialized()) {{
+                    alert("카카오 SDK 초기화 실패. 플랫폼 설정을 확인해주세요.");
+                    return;
+                }}
+
+                Kakao.Share.sendDefault({{
+                    objectType: 'feed',
+                    content: {{
+                        title: '⚡ VoltMaster Insight: Vol. 05',
+                        description: '2026 전력망의 대전환: AI 데이터센터와 차세대 에너지 솔루션',
+                        imageUrl: 'https://cdn-icons-png.flaticon.com/512/2992/2992143.png',
+                        link: {{
+                            mobileWebUrl: window.location.href,
+                            webUrl: window.location.href,
+                        }},
+                    }},
+                    buttons: [
+                        {{
+                            title: '뉴스레터 읽기',
+                            link: {{
+                                mobileWebUrl: window.location.href,
+                                webUrl: window.location.href,
+                            }},
+                        }},
+                    ],
+                }});
+            }}
+            setTimeout(initKakao, 500);
+        </script>
+
+        <style>
+            .share-container-top {{
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                z-index: 999;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }}
+            .share-btn {{
+                width: 45px;
+                height: 45px;
+                border-radius: 50%;
+                border: none;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            }}
+            .kakao {{ background-color: #FEE500; }}
+        </style>
+
+        <div class="share-container-top">
+            <button class="share-btn kakao" onclick="shareKakao()">
+                <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" width="25">
+            </button>
+        </div>
+    """, unsafe_allow_html=True)
+
+inject_share_buttons()
+
 # --- 1. [Intro] 뉴스레터 헤더 & 오프닝 ---
 st.markdown("""
 # ⚡ VoltMaster Insight: Vol. 05
-### **"2026 전력망의 대전환: AI 데이터센터와 차세대 에너지 솔루션"**
+### **"데이터센터 전용 DCC 정격의 이해와 누전 메커니즘의 재발견"**
 ---
 """)
 
 st.info("""
-**[Editor's Message]** 반갑습니다. 전력 계통의 안정과 혁신을 지향하는 **VoltMaster**입니다.  
-최근 기온 변화가 심해지면서 센터 내 냉각탑 수위 제어와 비상발전기 히터 점검에 집중하고 있는 요즘입니다. 
-이번 5호에서는 기술사 공부의 핵심인 NGR 설계 원리와 상반기 주요 기술 전시회 소식을 함께 담았습니다.
+**[Editor's Message]** 반갑습니다. 전력 계통의 안정과 혁신을 지향하는 **VoltMaster** 나지용입니다.  
+
+변덕스러운 봄 날씨 속에 냉각탑 수위 제어와 비상발전기 히터 점검으로 현장은 분주하지만, 우리 센터의 '강철 심장'을 지킨다는 자부심으로 가득한 요즘입니다.  
+
+이번 5호에서는 24시간 전력 질주하는 **DCC 발전기의 '강철 체력'** 이야기부터, 수도꼭지 비유로 아주 쉽게 풀어낸 **누전(지락) 메커니즘**, 그리고 놓치기 아까운 **상반기 주요 전시회** 소식을 담았습니다. 특히 고단한 일상 속 리프레시를 위한 **'전기인 성지 순례'** 코스까지 알차게 준비했으니, 이번 뉴스레터가 여러분의 기술적 갈증을 시원하게 해소해 드리는 단비가 되길 바랍니다.
 """)
 
 # --- 2. [Deep Dive] 비상발전기 정격(Rating)의 상세 이해 ---
@@ -291,22 +375,23 @@ st.markdown("<br>", unsafe_allow_html=True)
 # --- 6. [Closing] Q&A 및 푸터 ---
 st.divider()
 col_qa, col_info = st.columns(2)
+
 with col_qa:
-    st.markdown("### 💬 Q&A")
-    st.caption("Q: 터보냉동기 프리쿨링 전환 시점은 언제인가요?")
-    st.write("A: 외기 온도가 냉수 환수 온도보다 2~3℃ 낮아지는 늦가을부터가 적기입니다.")
+    st.markdown("### 💬 Q&A: 현장의 목소리")
+    # 단순 문답에서 실무적인 팁을 포함한 심층 답변으로 보강
+    with st.expander("Q: 터보냉동기 프리쿨링 전환 시점은 언제인가요?", expanded=True):
+        st.write("""
+        **A: 외기 온도가 냉수 환수 온도보다 2~3℃ 낮아지는 늦가을부터가 적기입니다.** 하지만 단순히 온도만 보기보다는 **'열교환기 입구 온도'**와 **'냉동기 압축기 동력'**의 평형점을 찾는 것이 중요합니다. 
+        우리 센터처럼 **별도 열교환기**가 설치된 경우, 외기 온도가 충분히 낮지 않더라도 **혼합 방식(Partial Free Cooling)**을 통해 냉동기 부하를 선제적으로 줄여 에너지를 절감할 수 있습니다. 
+        """)
+
 with col_info:
-    st.markdown("### 📅 Next Issue")
-    st.write("Vol. 06 예고: **'프리쿨링 전환 및 운용 기준'**")
-
-st.markdown("<br>", unsafe_allow_html=True)
-
-# [수정된 부분] href 주소 앞에 최상단 루트를 의미하는 '/'를 추가했습니다.
-st.markdown("""
-    <div style="color: #888888; font-size: 0.85rem;">
-        발행처: VoltMaster Engineering Team | 콘텐츠 문의: 
-        <a href="/contact" target="_self" style="color: #007bff; text-decoration: none; font-weight: bold;">
-            [문의하기]
-        </a>
-    </div>
-""", unsafe_allow_html=True)
+    st.markdown("### 📅 Next Issue: Vol. 06 예고")
+    # 다음 호에 다룰 구체적인 기술 포인트들을 나열하여 기대감 형성
+    st.success("""
+    **주제: '데이터센터 에너지 절약의 핵심, 프리쿨링(Free Cooling) 운용 전략'**
+    
+    * **혼합 모드 vs 전프리쿨링 모드:** 전환 기준점 잡기
+    * **중간 버퍼탱크의 역할:** 정전 시 백업 이상의 에너지 효율 관리
+    * **수질 관리:** 옥탑 냉각탑 동파 방지와 열교환기 스케일 관리
+    """)
