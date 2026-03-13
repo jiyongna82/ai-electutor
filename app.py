@@ -17,8 +17,10 @@ naver_code = "31d4310ce9bc01afed10413a6b901a9c8e32746f"
 
 # --- [3단계] 인증 및 검색 엔진 최적화(SEO/썸네일) 설정 ---
 
-# 지용 님이 주신 GitHub 이미지 주소를 적용했습니다.
-og_image_url = "https://raw.githubusercontent.com/jiyongna82/ai-electutor/master/image/VoltMaster_logo(O).jpg"
+# --- [3단계] 인증 및 검색 엔진 최적화(SEO/썸네일) 설정 ---
+
+# 봇이 가장 정확하게 인식할 수 있는 Raw 이미지 주소입니다.
+og_image_url = "https://raw.githubusercontent.com/jiyongna82/ai-electutor/425246aedab9075ccdac14d2cfd007d8819999f6/image/VoltMaster_logo%28O%29.jpg"
 
 st.markdown(f"""
     <head>
@@ -26,12 +28,12 @@ st.markdown(f"""
         <meta name="google-site-verification" content="{verification_code}" />
         <meta name="google-adsense-account" content="{adsense_id}" />
         
-        <meta name="description" content="현직 데이터센터 전력 전문가가 만든 전기실무 포털 VoltMaster. 전압강하 계산기, 건축전기설비기술사 학습, KEC 검색 서비스를 제공합니다." />
-        <meta name="keywords" content="VoltMaster, 볼트마스터, 전력계산기, 전기실무, 건축전기설비기술사, KEC검색" />
+        <title>VoltMaster | 전기실무 포털 & 기술사 AI 튜터</title>
+        <meta name="description" content="현직 데이터센터 전문가가 만든 VoltMaster. 전력 계산기, 건축전기설비기술사 학습, KEC 검색 서비스를 제공합니다." />
         
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://ai-electutor.com/" />
-        <meta property="og:title" content="VoltMaster | 전기 엔지니어를 위한 전력 운용 포털" />
+        <meta property="og:title" content="VoltMaster | 전기 엔지니어 전문 포털" />
         <meta property="og:description" content="실무 계산기, AI 자격증 튜터, 기술 자료실까지 한 번에 확인하세요." />
         <meta property="og:image" content="{og_image_url}" />
         <meta property="og:image:width" content="1200" />
@@ -41,6 +43,21 @@ st.markdown(f"""
         <meta name="twitter:image" content="{og_image_url}" />
     </head>
 """, unsafe_allow_html=True)
+
+# --- [3단계] 수정 및 보강 ---
+st.markdown(f"""
+    <head>
+        <meta name="naver-site-verification" content="{naver_code}" />
+        <meta name="google-site-verification" content="{verification_code}" />
+        <title>VoltMaster | 전기실무 포털</title>
+        <meta property="og:title" content="VoltMaster | 전기 엔지니어 필수 포털" />
+        <meta property="og:image" content="{og_image_url}" />
+        <meta property="og:description" content="실무 계산기 및 AI 자격증 튜터" />
+    </head>
+""", unsafe_allow_html=True)
+
+# 봇이 메타 태그를 못 읽을 때를 대비해, 페이지 최상단에 투명하게 이미지를 배치합니다.
+st.write(f'<img src="{og_image_url}" style="display:none;">', unsafe_allow_html=True)
 
 # --- [4단계] 수집봇 대응 로직 ---
 if st.query_params.get("page") == "robots":
