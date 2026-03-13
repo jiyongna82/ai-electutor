@@ -15,11 +15,31 @@ adsense_id = "pub-9577213309229562"
 verification_code = "uXxXH_PzU8GwoKbIjxKaFuGOCuYV7EWnk3wr9b9OtrM"
 naver_code = "31d4310ce9bc01afed10413a6b901a9c8e32746f"
 
-# --- [3단계] 인증 메타 태그 삽입 ---
+# --- [3단계] 인증 및 검색 엔진 최적화(SEO/썸네일) 설정 ---
+
+# 지용 님이 주신 GitHub 이미지 주소를 적용했습니다.
+og_image_url = "https://raw.githubusercontent.com/jiyongna82/ai-electutor/master/image/VoltMaster_logo(O).jpg"
+
 st.markdown(f"""
-    <meta name="naver-site-verification" content="{naver_code}" />
-    <meta name="google-site-verification" content="{verification_code}" />
-    <meta name="google-adsense-account" content="{adsense_id}" />
+    <head>
+        <meta name="naver-site-verification" content="{naver_code}" />
+        <meta name="google-site-verification" content="{verification_code}" />
+        <meta name="google-adsense-account" content="{adsense_id}" />
+        
+        <meta name="description" content="현직 데이터센터 전력 전문가가 만든 전기실무 포털 VoltMaster. 전압강하 계산기, 건축전기설비기술사 학습, KEC 검색 서비스를 제공합니다." />
+        <meta name="keywords" content="VoltMaster, 볼트마스터, 전력계산기, 전기실무, 건축전기설비기술사, KEC검색" />
+        
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://ai-electutor.com/" />
+        <meta property="og:title" content="VoltMaster | 전기 엔지니어를 위한 전력 운용 포털" />
+        <meta property="og:description" content="실무 계산기, AI 자격증 튜터, 기술 자료실까지 한 번에 확인하세요." />
+        <meta property="og:image" content="{og_image_url}" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content="{og_image_url}" />
+    </head>
 """, unsafe_allow_html=True)
 
 # --- [4단계] 수집봇 대응 로직 ---
