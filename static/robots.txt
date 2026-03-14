@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Sitemap: https://ai-electutor.com/sitemap.xml
+
+User-agent: Mediapartners-Google
+Allow: /

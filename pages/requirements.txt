@@ -1,0 +1,12 @@
+# 웹 프레임워크 및 내비게이션
+streamlit>=1.31.0
+
+# 구글 애드센스 및 메타태그 삽입용 컴포넌트
+streamlit-components-v1
+
+# 전력 계산기 로직용 (수치 계산 및 데이터 처리)
+numpy
+pandas
+
+# AI 튜터 및 향후 API 연동 대비 (선택 사항)
+requests

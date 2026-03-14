@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "voltmaster-489615",
+  "private_key_id": "839b5b522b0bebcc0f556688ab4e58c87a2c90bc",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDKyVjkmubNRBuW\nrcmz4JnR/+wTOwNzC3kvpxhm7sCUr+MnKxd3s4B6jiE9f3ubYgdJbgoLbDYXfmHp\nheC5ZcjIXXpbVMESA+IBiwwG2AiDgRvHho60TUyXVpgqPlwfNTbDHui+X8k+u34B\nHno4iP51hTMnQP/pBZl6CpnKDgO/rz8pAspGQlX7Wrt37L8UOyCo5eOvv+QSqs1S\n3H8UBDY02b0JjhYT5Zn1TLCkmOtAitdHBzRq1XwQV3IX88fz/8BSrfHyZz1OyGVt\nWqYuw14cmPXEn12EW1QCX/B85aWzIR7uJSOSLsLS8KDhicNX0nGrV5vFH3M7/9y3\nfaEvK+SrAgMBAAECggEAG7M29XyOqXGzvmM9NFkqTywWcHwKWRUzTRtAneg1czoM\nHTC+3bwt1nqCt4v/SPbc3Z7D4tKPGFTMWsyi/qrqKyslsxhtNSDwUYX6XcGgdsIp\n7Bkzy2pBsOyEZZoravHnFJksxrspL2yyEMS715bTAh+bS1yOzc2qLNMKNeEF3xF6\nkQPFsYni7dxzyJM/70oFfstz1VkLy8LrMPVbm4h+cJ8Vat9wQW6jnsJuxANWcWYl\nsvHEhY0KS5Y2J76vSRzoiHcNfiOvnianXkrAEwPQ+cPoX9EJCbgRgRCbo5ZNcnyy\nqDIjBfUSjklWD5w0dZRaR7kvI+4CYIlWBEPyFWeglQKBgQD4CRsnNjmHeUI8y/Zp\nLqVI69okxrEZ+GgUP0sPYjB6loZPBCQRuUyV7kIQR0PoR4jkQ3sHu6/965oG2DxX\ngNucLECvNQDLniVUyNbMBZJ9BRy0DHpYscVRy6F90wt0zFdruZPA2VJxCXXdWk48\ncF49uwqROpqJyhPSN8IyxJYzjwKBgQDRTElNVzkRnycuAVOPQpixuYofvlyq8B9X\nS2HV7hOs3nKszkxzC3qrLTFBNO1YlqDoxNnQmDShIeO9ou6CpcyJYVyQ/Qz7e1XC\nP0BvZyEQ0lVAgJgHPvuCkxtxQu5AHH4bIyiY56azZ6xeX+tMNhqvjxHAGLhd/kMv\n5nJkDLX/JQKBgFUg4vXhUXtirc4p/qd4//d4I0WuAAi2zhns4zkjbRoV4YDrHeoL\nW/K1dG0b2H23V49obahozW1r2FBzFLq/miAOvCCmI2C/JXbk+3vIic9o2sIc6jzY\nvq1lI0cJEQyEOZjad5CfxgDPy2kuXl21/1JWiLjxkSqrdYQX6Qn9mMOXAoGBAJnp\nYZZQaBU/Vo6MRyh4rtUzPhGt6XOC9Wk6dA3f7/QV+Xp+ktWfQWwT5b6v70JQMrA5\n4nt1Em7T/yf7Yy4MQudcA7hTfnKI9j3MSdQioLxAEJVIe4QImuggyfN2ZsIasdm+\n9yHKaFpSCP21x9DZkLI9oa4D/8CPNFVLQB+3ATdJAoGBAPB3MP64Lz/FRUJSk17w\nLKe8QBjL9yEBoXBwIDTQCC1gBkpexRt6Drva7uYZxjBZhD1SGZeP8UEbDpmW7awn\nQnEKbj3gD/lY3TnDGCe2uTkRa6qRzMtT/0TPHxcb+bA10By7oLR6WACPKSsPgJhw\n6J7/VPcs5kXyTQbuoUE+FbKp\n-----END PRIVATE KEY-----\n",
+  "client_email": "streamlit-bot@voltmaster-489615.iam.gserviceaccount.com",
+  "client_id": "114376336807687291846",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/streamlit-bot%40voltmaster-489615.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
