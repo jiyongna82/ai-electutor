@@ -5,3 +5,8 @@ nginx_letsencrypt/
 __pycache__/
 *.pyc
 .env
+venv/
+.venv/
+env/
+node_modules/
+old_project/
