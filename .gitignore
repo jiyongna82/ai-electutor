@@ -1,1 +1,7 @@
+db_data/
+wordpress_data/
 nginx_data/
+nginx_letsencrypt/
+__pycache__/
+*.pyc
+.env
