@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # 1. 데이터베이스 (워드프레스용)
+  db:
+    image: mariadb:10.6
+    volumes:
+      - ./db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: your_password_here
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: your_password_here
+
+  # 2. 워드프레스 (애드센스 수익형 블로그)
+  wordpress:
+    depends_on:
+      - db
+    image: wordpress:latest
+    ports:
+      - "8080:80"
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: your_password_here
+      WORDPRESS_DB_NAME: wordpress
+
+  # 3. 스트림릿 (전기 기술 계산기/도구)
+  streamlit:
+    build: ./streamlit
+    ports:
+      - "8501:8501"
+    restart: always
+    volumes:
+      - ./streamlit:/app
+
+      # Nginx Proxy Manager 설정 추가
+  nginx-proxy:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginx-proxy
+    restart: always
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - ./nginx_data:/data
+      - ./nginx_letsencrypt:/etc/letsencrypt

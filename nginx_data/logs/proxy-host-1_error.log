@@ -1,0 +1,4 @@
+2026/03/14 05:32:16 [warn] 231#231: *109 using uninitialized "server" variable while logging request, client: 164.90.228.79, server: ai-electutor.com, request: "LEAKIX"
+2026/03/14 05:32:16 [warn] 231#231: *112 using uninitialized "server" variable while logging request, client: 206.81.12.187, server: ai-electutor.com, request: "LEAKIX"
+2026/03/14 05:32:18 [warn] 231#231: *139 using uninitialized "server" variable while logging request, client: 185.253.160.133, server: ai-electutor.com, request: "GET / HTTP/1.1", host: "ai-electutor.com"
+2026/03/14 05:41:21 [warn] 255#255: *2309 an upstream response is buffered to a temporary file /var/cache/nginx/proxy_temp/7/75/0000000757 while reading upstream, client: 118.235.82.251, server: ai-electutor.com, request: "GET /wp-includes/js/zxcvbn.min.js HTTP/1.1", upstream: "http://172.17.0.1:8080/wp-includes/js/zxcvbn.min.js", host: "ai-electutor.com", referrer: "https://ai-electutor.com/wp-admin/install.php?step=1"
